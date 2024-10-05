@@ -1,0 +1,21 @@
+node {
+    stage('Checkout SCM') {
+        git branch: 'expense-revenue-tracker', url: 'git@github.com:joywinmissier/expense-revenue-tracker.git'
+    }
+
+    stage('Install node modules') {
+        sh "npm install"
+    }
+
+    stage("Test") {
+        sh "npm run test-headless"
+    }
+
+    stage("Build") {
+        sh "npm run build"
+    }
+    
+    stage("Copy") {
+        sh "cp -a /var/lib/jenkins/workspace/angular-pipeline/dist/revenue-expense-manager/. /var/www/evenue-expense-manager/html/"
+    }
+}
